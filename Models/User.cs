@@ -1,4 +1,4 @@
-﻿    using System.Data;
+﻿using System.Data;
 using RM_API.Models.DTOs;
 
 namespace RM_API.Models
@@ -21,7 +21,6 @@ namespace RM_API.Models
             FirstName = userDTO.FirstName;
             LastName = userDTO.LastName;
             if (userDTO.Devices != null) Devices = userDTO.Devices.Select(d => new Device(d)).ToList();
-
         }
 
         public User(UserRegisterDTO registerDTO)
