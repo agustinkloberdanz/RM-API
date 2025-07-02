@@ -4,11 +4,14 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using RM_API.Jobs;
 using RM_API.Models;
 using RM_API.Repositories.Implementations;
 using RM_API.Repositories.Interfaces;
 using RM_API.Services.Implementations;
 using RM_API.Services.Interfaces;
+using RM_API.Tasks.Implementations;
+using RM_API.Tasks.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -103,19 +106,25 @@ builder.Services.AddDbContext<RM_APIContext>(options =>
     options.EnableSensitiveDataLogging(true);
 });
 
-//Add repositories to the container
+// Add repositories to the container
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRouteRepository, RouteRepository>();
 builder.Services.AddScoped<ILocationRepository, LocationRepository>();
 builder.Services.AddScoped<IDeviceRepository, DeviceRepository>();
 
-//Add services to the container
+// Add services to the container
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IRoutesService, RoutesService>();
 builder.Services.AddScoped<IEncryptsService, EncryptsService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddSingleton<FirebaseService>();
 builder.Services.AddScoped<INotificationsService, NotificationsService>();
+
+// Add hosted service for background tasks
+builder.Services.AddHostedService<Worker>();
+
+// Add tasks to the container
+builder.Services.AddSingleton<IRoutesCleaner, RoutesCleaner>();
 
 var app = builder.Build();
 

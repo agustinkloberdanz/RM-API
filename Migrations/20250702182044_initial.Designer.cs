@@ -12,8 +12,8 @@ using RM_API.Models;
 namespace RM_API.Migrations
 {
     [DbContext(typeof(RM_APIContext))]
-    [Migration("20250517133249_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250702182044_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
